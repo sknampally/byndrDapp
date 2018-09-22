@@ -1,0 +1,15 @@
+{
+  "name": "byndrdapp",
+  "version": "1.0.0",
+  "description": "Library Dapp for Blockchain, ETH and Solidity esstentials training",
+  "main": "app.js",
+  "scripts": {
+    "test": "run"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "ejs": "^2.6.1",
+    "express": "^4.16.3"
+  }
+}

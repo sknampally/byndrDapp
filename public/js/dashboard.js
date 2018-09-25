@@ -112,15 +112,32 @@ $(document).ready(function() {
 
     if(book_genre && book_author && book_genre) {
         // Add Book Functionality 
+        console.log (book_name,book_author);
+        mainContract.addBook(book_name,book_author, function(error, result){
+            if(!error){
+                console.log(JSON.stringify(result));
+                
+                $('.add_book_status').removeClass('error');
+                $('.add_book_status').addClass('success');
+                $('.add_book_status').html('You Have added Book Successfully');
+            }
+            else {
+                console.error(error);
+                $('.add_book_status').removeClass('success');
+                $('.add_book_status').addClass('error');
+                $('.add_book_status').html('Please fill all the fields');
+            }
+         }) 
         // end add book functionality
-        $('.add_book_status').removeClass('error');
-        $('.add_book_status').addClass('success');
-        $('.add_book_status').html('You Have added Book Successfully');
+
     } else {
         $('.add_book_status').removeClass('success');
         $('.add_book_status').addClass('error');
         $('.add_book_status').html('Please fill all the fields');
+
+
     }
+    console.log("demo");
 });
 
 /* Add book Functionality */

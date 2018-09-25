@@ -70,30 +70,29 @@
     <div class="slimScrollDiv" style="position: relative; overflow: hidden; width: auto; height: 100%;"><div id="navigation" style="overflow: hidden; width: auto; height: 100%;">
     
       <ul class="nav" id="side-menu">
-        <li class="active">
-            <a href="./dashboard.html?state=available_books">
+        <li class="" id="menu_dashboard">
+            <a href="./dashboard">
+                <span class="nav-label">Dashboard</span>
+            </a>
+        </li>
+        <li class="" id="menu_list_of_books">
+            <a href="./dashboard?state=list_of_books">
+                <span class="nav-label">List of Books</span>
+                <span class="label label-warning pull-right">120</span>
+            </a>
+        </li>
+        <li class="" id="menu_available_books">
+            <a href="./dashboard?state=available_books">
                 <span class="nav-label">Available Books</span>
                 <span class="label label-primary pull-right">150</span>
             </a>
         </li>
-
-        <li class="">
-            <a href="./dashboard.html?state=list_of_books">
-                <span class="nav-label">List of Books</span>
-                <span class="label label-warning pull-right">120</span>
-            </a>
-            </li>
-        <li class="">
+        <li class="" id="menu_add_book">
           <a class="add_book">
             <span class="nav-label">Add Book</span>
           </a>
         </li>
-        <li class="">
-          <a href="./dashboard.html?state=issue_book">
-            <span class="nav-label">Issue Book</span>
-          </a>
-        </li>
-        <li class="">
+        <li class="" id="menu_join_library">
           <a class="join_library">
             <span class="nav-label">Join Library</span>
           </a>
@@ -130,7 +129,7 @@
 <!-- Tablet add Book -->
 
     <div class="content" style="padding-top: 30px;">
-        <div class="row">
+        <div class="row" id="dashboard_stats">
                 <div class="col-sm-6 col-lg-3">
                         <a href="./dashboard?state=books_issued">
                             <div class="hpanel hyellow contact-panel">
@@ -180,7 +179,7 @@
             </div>
             
             <div class="col-sm-6 col-lg-3">
-                    <a href="./dashboard?state=available_books">
+                    <a href="./dashboard?state=books_issued">
                         <div class="hpanel hred contact-panel">
                             <div class="panel-body">
                                 <span class="label label-danger pull-right">Available</span>
@@ -205,27 +204,24 @@
             
 
             <div class="col-sm-6 col-lg-3">
-                    <a href="./dashboard?state=total_members">
-                        <div class="hpanel hblue contact-panel">
-                            <div class="panel-body">
-                                <span class="label label-info pull-right">Members</span>
-                                <br><br>
-                                <div>
-                                    <img alt="logo" class="img-circle m-b" src="images/members.png" style="display: inline-block;width: 55px;height: 55px;">
-                                    <div style="display: inline-block;font-weight: 600px;font-size: 18px;margin-left: 10px;" class="text-muted m-b-xs">
-                                            Total Members
-                                    </div>
+                    <div class="hpanel hblue contact-panel">
+                        <div class="panel-body">
+                            <span class="label label-info pull-right">Members</span>
+                            <br><br>
+                            <div>
+                                <img alt="logo" class="img-circle m-b" src="images/members.png" style="display: inline-block;width: 55px;height: 55px;">
+                                <div style="display: inline-block;font-weight: 600px;font-size: 18px;margin-left: 10px;" class="text-muted m-b-xs">
+                                        Total Members
                                 </div>
-                                <div style="display:inline-block;">
-                                    <h3 style="color: #3498db;margin-top: 12%;">Ξ 120</h3>
-                                </div>
-                                <span class=" fa pull-right font-light" style="padding-top:48px;font-size:12px;">
-                                </span>
-                                
                             </div>
+                            <div style="display:inline-block;">
+                                <h3 style="color: #3498db;margin-top: 12%;">Ξ 120</h3>
+                            </div>
+                            <span class=" fa pull-right font-light" style="padding-top:48px;font-size:12px;">
+                            </span>
                             
                         </div>
-                    </a>
+                    </div>
             </div>
         </div>
 
@@ -295,108 +291,38 @@
                 </div>
             </div>
 
-            <div class="row" id="issue_book_block" style="display:none;">
-                    <div class="col-sm-12">
-                        <div class="font-weight-bold title_block">Books Need to Issue</div>
-                    </div>
-                    <div class="col-sm-12">
-                        <table id="issue_books" class="table table-striped table-bordered" style="width:100%">
-                            <thead>
-                                <tr>
-                                    <th>S.No</th>
-                                    <th>Name</th>
-                                    <th>Author</th>
-                                    <th>Genre</th>
-                                    <th>Date added</th>
-                                    <th>Status</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                            </tbody>
-                            <tfoot>
-                                <tr>
-                                        <th>S.No</th>
-                                        <th>Name</th>
-                                        <th>Author</th>
-                                        <th>Genre</th>
-                                        <th>Date added</th>
-                                        <th>Status</th>
-                                    </tr>
-                            </tfoot>
-                        </table>
-                    </div>
-                </div>
     
-                <div class="row" id="issued_books_block" style="display:none;">
-                        <div class="col-sm-12">
-                            <div class="font-weight-bold title_block">Issued Books</div>
-                        </div>
-                        <div class="col-sm-12">
-                            <table id="issued_books" class="table table-striped table-bordered" style="width:100%">
-                                <thead>
-                                    <tr>
-                                        <th>S.No</th>
-                                        <th>Name</th>
-                                        <th>Author</th>
-                                        <th>Genre</th>
-                                        <th>Date added</th>
-                                        <th>Status</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                </tbody>
-                                <tfoot>
-                                    <tr>
-                                        <th>S.No</th>
-                                        <th>Name</th>
-                                        <th>Author</th>
-                                        <th>Genre</th>
-                                        <th>Date added</th>
-                                        <th>Status</th>
-                                    </tr>
-                                </tfoot>
-                            </table>
-                        </div>
-                    </div>
-        
-            <div class="row" id="total_members_block" style="display:none;">
-                    <div class="col-sm-12">
-                        <div class="font-weight-bold title_block">Total Members</div>
-                    </div>
-                    <div class="col-sm-12">
-                        <table id="total_members" class="table table-striped table-bordered" style="width:100%">
-                            <thead>
-                                <tr>
-                                    <th>S.No</th>
-                                    <th>Name</th>
-                                    <th>Date Joined</th>
-                                    <th>Status</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                            </tbody>
-                            <tfoot>
-                                <tr>
-        
-                                    <th>S.No</th>
-                                    <th>Name</th>
-                                    <th>Date added</th>
-                                    <th>Status</th>
-                                </tr>
-                            </tfoot>
-                        </table>
-                    </div>
-                </div>
-    
-
-        <div class="row" id="default_block" style="display:none;">
+            <div class="row" id="issued_books_block" style="display:none;">
                 <div class="col-sm-12">
-                    <div class="font-weight-bold title_block">404 URL Not Found</div>
+                    <div class="font-weight-bold title_block">Issued Books</div>
                 </div>
-                <div class="col-sm-12" style="padding:20px 40px;">
-                    Sorry URL Not found
+                <div class="col-sm-12">
+                    <table id="issued_books" class="table table-striped table-bordered" style="width:100%">
+                        <thead>
+                            <tr>
+                                <th>S.No</th>
+                                <th>Name</th>
+                                <th>Author</th>
+                                <th>Genre</th>
+                                <th>Date added</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        </tbody>
+                        <tfoot>
+                            <tr>
+                                <th>S.No</th>
+                                <th>Name</th>
+                                <th>Author</th>
+                                <th>Genre</th>
+                                <th>Date added</th>
+                                <th>Status</th>
+                            </tr>
+                        </tfoot>
+                    </table>
                 </div>
-        </div>
+            </div>
     </div>
 
     <footer class="footer">

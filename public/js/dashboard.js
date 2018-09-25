@@ -60,35 +60,37 @@ function ethBalance(account) {
 $(document).ready(function() {
     var state = GetParameterValues('state');
 
-    if((state == "list_of_books") || (state == undefined)) {
+    if(state == undefined) {
         $('#list_books_block').css('display','block');
         $('#list_books tbody').append('<tr><td>1</td><td>Tiger Nixon</td><td>System Architect</td><td>Edinburgh</td><td>61</td><td ><span class="issue_book" data-id="1">Issue Book</span></td></tr><tr><td>2</td><td>Garrett Winters</td><td>Accountant</td><td>Tokyo</td><td>63</td><td ><span class="issue_book_disable">Book Issued</span></td></tr>');
         $('#list_books').DataTable(); // data table constructor
+        $('#menu_dashboard').addClass('active');
+    }
 
+    if((state == "list_of_books")) {
+        $('#list_books_block').css('display','block');
+        $('#list_books tbody').append('<tr><td>1</td><td>Tiger Nixon</td><td>System Architect</td><td>Edinburgh</td><td>61</td><td ><span class="issue_book" data-id="1">Issue Book</span></td></tr><tr><td>2</td><td>Garrett Winters</td><td>Accountant</td><td>Tokyo</td><td>63</td><td ><span class="issue_book_disable">Book Issued</span></td></tr>');
+        $('#list_books').DataTable(); // data table constructor
+        $('#dashboard_stats').css('display','none');
+        $('#menu_list_of_books').addClass('active');
     }
 
     if(state == "available_books") {
         $('#available_books_block').css('display','block');
         $('#available_books tbody').append('<tr><td>1</td><td>Tiger Nixon</td><td>System Architect</td><td>Edinburgh</td><td>61</td><td ><span class="issue_book" data-id="1">Issue Book</span></td></tr><tr><td>2</td><td>Garrett Winters</td><td>Accountant</td><td>Tokyo</td><td>63</td><td ><span class="issue_book_disable">Book Issued</span></td></tr>');
         $('#available_books').DataTable(); // data table constructor
-    }
-
-    if(state == "issue_book") {
-        $('#issue_book_block').css('display','block');
-        $('#issue_books tbody').append('<tr><td>1</td><td>Tiger Nixon</td><td>System Architect</td><td>Edinburgh</td><td>61</td><td ><span class="issue_book" data-id="789465">Issue Book</span></td></tr><tr><td>2</td><td>Garrett Winters</td><td>Accountant</td><td>Tokyo</td><td>63</td><td ><span class="issue_book" data-id="123456">Issue Book</span></td></tr>');
-        $('#issue_books').DataTable(); // data table constructor
+        $('#dashboard_stats').css('display','none');
+        $('#menu_available_books').addClass('active');
     }
 
     if(state == "books_issued") {
         $('#issued_books_block').css('display','block');
-        $('#issued_books tbody').append('<tr><td>1</td><td>Tiger Nixon</td><td>System Architect</td><td>Edinburgh</td><td>61</td><td><span class="issue_book_disable">Book Issued</span></td></tr><tr><td>2</td><td>Garrett Winters</td><td>Accountant</td><td>Tokyo</td><td>63</td><td ><span class="issue_book_disable">Book Issued</span></td></tr>');
+        var temp = [];
+        for (i = 1; i < 5; i++) {
+            temp = temp + '<tr><td>'+i+'</td><td>Tiger Nixon</td><td>System Architect</td><td>Edinburgh</td><td>61</td><td><span class="issue_book_disable">Book Issued</span></td></tr>';
+        };
+        $('#issued_books tbody').append(temp);
         $('#issued_books').DataTable(); // data table constructor
-    }
-
-    if(state == "total_members") {
-        $('#total_members_block').css('display','block');
-        $('#total_members tbody').append('<tr><td>1</td><td>Tiger Nixon</td><td>System Architect</td><td >Active</td></tr><tr><td>2</td><td>Tiger Nixon</td><td>System Architect</td><td>Active</td></tr>');
-        $('#total_members').DataTable(); // data table constructor
     }
 
 

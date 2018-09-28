@@ -19,7 +19,7 @@ function GetParameterValues(param) {
     }  
 }
 
-var contractAddress = '0xeEE02c175e13EBe4a68147C5F44bD486f5AC7a6d';
+var contractAddress = '0xae8dfd426c39417aad5684700ee8cb958714684b';
 var mainContract = web3.eth.contract(abiMyLibrary).at(contractAddress);
 
 var totalBooks;
@@ -27,6 +27,7 @@ var booksIssued;
 var totalMembers;
 
 var networkID;
+var nameOfLibrary
 
 if (typeof web3 !== 'undefined') {
     var web3 = new Web3(web3.currentProvider);
@@ -36,7 +37,7 @@ if (typeof web3 !== 'undefined') {
             if (netId == 3) {
                 // Do nothing
             } else {
-                alert("You're not on right network. Switch to Kovan Network in Metamask.");
+                alert("You're not on right network. Switch to Ropsten Network in Metamask.");
             }
             account = web3.eth.accounts[0];
             ethBalance(account);
@@ -45,6 +46,17 @@ if (typeof web3 !== 'undefined') {
         //$('.yourAddr').text('Not found');
     }
 }
+
+mainContract.nameOfLibrary.call(function(err,res){
+    if(!err){ 
+        nameOfLibrary = res;
+        $('#nameOfLibrary').get(nameOfLibrary);
+        console.log("name set to :" + nameOfLibrary);
+    } else {
+        nameOfLibrary = "error - could not connect to library";
+        console.log("name set to :"+nameOfLibrary);
+    }
+});
 
 function ethBalance(account) {
     web3.eth.getBalance(account, function (err, res) {

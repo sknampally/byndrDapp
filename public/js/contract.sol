@@ -5,7 +5,7 @@ contract MyLibrary  {
     /* Define variable greeting of the type string */
     string public nameOfLibrary;
     address public owner;
-    uint8 public currentBookNumber = 0;
+    uint8 public totalBookCount;
      
     struct Book {
         uint8 bookNumber;
@@ -26,11 +26,11 @@ contract MyLibrary  {
     function addBook(string _nameOfBook, string _author) public returns (bool _success) {
         require(msg.sender == owner, "Only owner can add books"); // allow only the owner of the library to add books
         Book memory _book;
-        _book.bookNumber = currentBookNumber;
+        _book.bookNumber = totalBookCount;
         _book.nameOfBook = _nameOfBook; 
         _book.author = _author;
         AllBooks.push(_book);
-        currentBookNumber++; 
+        totalBookCount++; 
         return true;
     }
 

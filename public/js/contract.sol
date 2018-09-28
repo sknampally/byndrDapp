@@ -10,7 +10,7 @@ contract MyLibrary  {
     uint8 public totalMemberCount;
      
     struct Book {
-        uint8 bookNumber;
+        uint16 bookNumber;
         string nameOfBook;
         string author;
         address borrower;
@@ -33,6 +33,7 @@ contract MyLibrary  {
         _book.author = _author;
         AllBooks.push(_book);
         totalBookCount++; 
+        availableBookCount++;
         return true;
     }
 

@@ -19,7 +19,7 @@ function GetParameterValues(param) {
     }  
 }
 
-var contractAddress = '0x99342288b1c2a3d611d6643f4680c5f99a6eb52f';
+var contractAddress = '0x05c7e2bd9346dbae890d6e7499c444144a2d4721';
 var mainContract = web3.eth.contract(abiMyLibrary).at(contractAddress);
 
 var totalBookCount;
@@ -60,34 +60,53 @@ mainContract.nameOfLibrary.call(function(err,res){
     }
 });
 
+updateBookCount();
 
 /* add  total book count */
-mainContract.totalBookCount.call(function(err,res){
-    if(!err){ 
-        totalBookCount = res;
-        $("#totalBookCount").text(totalBookCount);
+function updateBookCount(){
+    mainContract.totalBookCount.call(function(err,res){
+        if(!err){ 
+            totalBookCount = res;
+            updateAvailableAndIssuedBookCount();  // called from within to ensure that totalBookCount is set
+            $("#totalBookCount").text(totalBookCount);          
+            console.log("name set to :" + totalBookCount);
+        } else {
+            totalBookCount = "error - could not connect to library";
+            console.log("total book count set to :"+totalBookCount);
+        }
+    });
+}
 
-        
-        console.log("name set to :" + totalBookCount);
-    } else {
-        totalBookCount = "error - could not connect to library";
-        console.log("name set to :"+totalBookCount);
-    }
+
+function updateAvailableAndIssuedBookCount() {
+    mainContract.availableBookCount.call(function(err,res){
+        if(!err){ 
+            availableBookCount = res;
+            
+            $("#availableBookCount").text(availableBookCount);
+            issuedBookCount = totalBookCount - availableBookCount;
+            $("#issuedBookCount").text(issuedBookCount);        
+            console.log("issued book count set to :" + issuedBookCount);
+            for (var i=0;i<totalBookCount.c[0]; i++){
+                mainContract.AllBooks.call(i,function(err,res){
+                    res.forEach(function(el) {
+                        console.log(el);
+                        
+                    });
+            
+            
+                });
+            }
+            
+        } else {
+            avaialbleBookCount = "error - could not connect to library";
+            console.log("name set to :"+avaialbleBookCount);
+        }
 });
+}
 
-mainContract.issuedBookCount.call(function(err,res){
-    if(!err){ 
-        issuedBookCount = res;
-        $("#issuedBookCount").text(issuedBookCount);
-        availableBookCount = totalBookCount - issuedBookCount;
-        $("#availableBookCount").text(availableBookCount);        
-        console.log("name set to :" + issuedBookCount);
-    } else {
-        issuedBookCount = "error - could not connect to library";
-        console.log("name set to :"+issuedBookCount);
-    }
-});
 
+console.log("reached till here but totalBookCOunt has not be defined yet");
 
 
 mainContract.totalMemberCount.call(function(err,res){
@@ -96,10 +115,10 @@ mainContract.totalMemberCount.call(function(err,res){
         $("#totalMemberCount").text(totalMemberCount);
 
         
-        console.log("name set to :" + totalMemberCount);
+        console.log("total member count :" + totalMemberCount);
     } else {
         totalMemberCount = "error - could not connect to library";
-        console.log("name set to :"+totalMemberCount);
+        console.log("total member count :"+totalMemberCount);
     }
 });
 

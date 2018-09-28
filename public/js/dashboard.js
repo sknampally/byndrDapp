@@ -86,16 +86,31 @@ function updateAvailableAndIssuedBookCount() {
             $("#availableBookCount").text(availableBookCount);
             issuedBookCount = totalBookCount - availableBookCount;
             $("#issuedBookCount").text(issuedBookCount);        
-            console.log("issued book count set to :" + issuedBookCount);
-            for (var i=0;i<totalBookCount.c[0]; i++){
-                mainContract.AllBooks.call(i,function(err,res){
-                    res.forEach(function(el) {
-                        console.log(el);
+            {
+                $('#list_books_block').css('display','block');
+                for (i = 0; i < issuedBookCount; i++) {
+                    mainContract.AllBooks.call(i,function(err,res)
+                    {
+                        console.log(res);
+                        temp = '<tr><td>';
+                        temp += (i + 1); // human counters start from 1 also typecasting the i + 1 
+                        temp += '</td><td>'
+                        temp += res[1];
+                        temp += '</td><td>'
+                        temp += res[2];
+                        temp += '</td><td>Genre</td><td>'
+                        temp += '13/9/2018'
+                        temp += '</td><td><span class="issue_book';
                         
+                        if ((res[4])){temp += '_disable">Book Issued'}else {temp+='">Issue Book'};
+                        temp += '</span></td></tr>';
+                        $('#list_books tbody').append(temp);
                     });
-            
-            
-                });
+                $('#list_books').DataTable(); // data table constructor
+                $('#menu_dashboard').addClass('active');    
+                
+                };
+
             }
             
         } else {
@@ -106,7 +121,7 @@ function updateAvailableAndIssuedBookCount() {
 }
 
 
-console.log("reached till here but totalBookCOunt has not be defined yet");
+
 
 
 mainContract.totalMemberCount.call(function(err,res){
@@ -136,6 +151,7 @@ function ethBalance(account) {
 }
 
 $(document).ready(function() {
+    console.log("document ready")
     var state = GetParameterValues('state');
 
     if(state == undefined) {
@@ -164,10 +180,16 @@ $(document).ready(function() {
     if(state == "books_issued") {
         $('#issued_books_block').css('display','block');
         var temp = [];
-        for (i = 1; i < 5; i++) {
-            temp = temp + '<tr><td>'+i+'</td><td>Tiger Nixon</td><td>System Architect</td><td>Edinburgh</td><td>61</td><td><span class="issue_book_disable">Book Issued</span></td></tr>';
+        
+        console.log("issued book count is " + issuedBookCount);
+        for (i = 0; i < 5; i++) {
+            temp = '<tr><td>';
+            temp = temp + i;
+            temp = temp + '</td><td>Tiger Nixon</td><td>System Architect</td><td>Edinburgh</td><td>61</td><td><span class="issue_book_disable">Book Issued</span></td></tr>';
+            $('#issued_books tbody').append(temp);
+            
         };
-        $('#issued_books tbody').append(temp);
+        
         $('#issued_books').DataTable(); // data table constructor
     }
 

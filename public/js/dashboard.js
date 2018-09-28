@@ -50,7 +50,9 @@ if (typeof web3 !== 'undefined') {
 mainContract.nameOfLibrary.call(function(err,res){
     if(!err){ 
         nameOfLibrary = res;
-        $('#nameOfLibrary').get(nameOfLibrary);
+        $("#nameOfLib").text(nameOfLibrary);
+
+        
         console.log("name set to :" + nameOfLibrary);
     } else {
         nameOfLibrary = "error - could not connect to library";

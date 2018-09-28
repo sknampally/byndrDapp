@@ -19,7 +19,7 @@ function GetParameterValues(param) {
     }  
 }
 
-var contractAddress = '0xf4cd20c34e9845864c487a101a16df291e376d59';
+var contractAddress = '0x99342288b1c2a3d611d6643f4680c5f99a6eb52f';
 var mainContract = web3.eth.contract(abiMyLibrary).at(contractAddress);
 
 var totalBookCount;
@@ -74,6 +74,35 @@ mainContract.totalBookCount.call(function(err,res){
         console.log("name set to :"+totalBookCount);
     }
 });
+
+mainContract.issuedBookCount.call(function(err,res){
+    if(!err){ 
+        issuedBookCount = res;
+        $("#issuedBookCount").text(issuedBookCount);
+        availableBookCount = totalBookCount - issuedBookCount;
+        $("#availableBookCount").text(availableBookCount);        
+        console.log("name set to :" + issuedBookCount);
+    } else {
+        issuedBookCount = "error - could not connect to library";
+        console.log("name set to :"+issuedBookCount);
+    }
+});
+
+
+
+mainContract.totalMemberCount.call(function(err,res){
+    if(!err){ 
+        totalMemberCount = res;
+        $("#totalMemberCount").text(totalMemberCount);
+
+        
+        console.log("name set to :" + totalMemberCount);
+    } else {
+        totalMemberCount = "error - could not connect to library";
+        console.log("name set to :"+totalMemberCount);
+    }
+});
+
 
 
 function ethBalance(account) {

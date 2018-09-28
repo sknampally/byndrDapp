@@ -5,7 +5,9 @@ contract MyLibrary  {
     /* Define variable greeting of the type string */
     string public nameOfLibrary;
     address public owner;
-    uint8 public totalBookCount;
+    uint16 public totalBookCount;
+    uint16 public availableBookCount;
+    uint8 public totalMemberCount;
      
     struct Book {
         uint8 bookNumber;

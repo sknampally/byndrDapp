@@ -1,40 +1,9 @@
 var abiMyLibrary = [
 	{
-		"anonymous": false,
-		"inputs": [
-			{
-				"indexed": false,
-				"name": "_name",
-				"type": "string"
-			},
-			{
-				"indexed": false,
-				"name": "_author",
-				"type": "string"
-			}
-		],
-		"name": "ListAllBooks",
-		"type": "event"
-	},
-	{
 		"constant": false,
-		"inputs": [
-			{
-				"name": "_nameOfBook",
-				"type": "string"
-			},
-			{
-				"name": "_author",
-				"type": "string"
-			}
-		],
-		"name": "addBook",
-		"outputs": [
-			{
-				"name": "_success",
-				"type": "bool"
-			}
-		],
+		"inputs": [],
+		"name": "printListOfBooks",
+		"outputs": [],
 		"payable": false,
 		"stateMutability": "nonpayable",
 		"type": "function"
@@ -49,57 +18,37 @@ var abiMyLibrary = [
 		"type": "function"
 	},
 	{
-		"constant": false,
-		"inputs": [
+		"constant": true,
+		"inputs": [],
+		"name": "availableBookCount",
+		"outputs": [
 			{
-				"name": "_bookNumber",
+				"name": "",
 				"type": "uint8"
 			}
 		],
-		"name": "issueBook",
-		"outputs": [
-			{
-				"name": "success",
-				"type": "bool"
-			}
-		],
 		"payable": false,
-		"stateMutability": "nonpayable",
+		"stateMutability": "view",
 		"type": "function"
 	},
 	{
-		"constant": false,
-		"inputs": [],
-		"name": "joinClub",
-		"outputs": [
-			{
-				"name": "success",
-				"type": "bool"
-			}
-		],
-		"payable": true,
-		"stateMutability": "payable",
-		"type": "function"
-	},
-	{
-		"constant": false,
-		"inputs": [],
-		"name": "printListOfBooks",
-		"outputs": [],
-		"payable": false,
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
+		"constant": true,
 		"inputs": [
 			{
-				"name": "_msg",
-				"type": "string"
+				"name": "",
+				"type": "address"
+			}
+		],
+		"name": "balanceOf",
+		"outputs": [
+			{
+				"name": "",
+				"type": "uint256"
 			}
 		],
 		"payable": false,
-		"stateMutability": "nonpayable",
-		"type": "constructor"
+		"stateMutability": "view",
+		"type": "function"
 	},
 	{
 		"constant": true,
@@ -137,18 +86,32 @@ var abiMyLibrary = [
 		"type": "function"
 	},
 	{
-		"constant": true,
+		"constant": false,
 		"inputs": [
 			{
-				"name": "",
-				"type": "address"
+				"name": "_bookNumber",
+				"type": "uint8"
 			}
 		],
-		"name": "balanceOf",
+		"name": "issueBook",
+		"outputs": [
+			{
+				"name": "success",
+				"type": "bool"
+			}
+		],
+		"payable": false,
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"constant": true,
+		"inputs": [],
+		"name": "totalMemberCount",
 		"outputs": [
 			{
 				"name": "",
-				"type": "uint256"
+				"type": "uint8"
 			}
 		],
 		"payable": false,
@@ -158,11 +121,11 @@ var abiMyLibrary = [
 	{
 		"constant": true,
 		"inputs": [],
-		"name": "nameOfLibrary",
+		"name": "totalBookCount",
 		"outputs": [
 			{
 				"name": "",
-				"type": "string"
+				"type": "uint8"
 			}
 		],
 		"payable": false,
@@ -186,15 +149,80 @@ var abiMyLibrary = [
 	{
 		"constant": true,
 		"inputs": [],
-		"name": "totalBookCount",
+		"name": "nameOfLibrary",
 		"outputs": [
 			{
 				"name": "",
-				"type": "uint8"
+				"type": "string"
 			}
 		],
 		"payable": false,
 		"stateMutability": "view",
 		"type": "function"
+	},
+	{
+		"constant": false,
+		"inputs": [],
+		"name": "joinClub",
+		"outputs": [
+			{
+				"name": "success",
+				"type": "bool"
+			}
+		],
+		"payable": true,
+		"stateMutability": "payable",
+		"type": "function"
+	},
+	{
+		"constant": false,
+		"inputs": [
+			{
+				"name": "_nameOfBook",
+				"type": "string"
+			},
+			{
+				"name": "_author",
+				"type": "string"
+			}
+		],
+		"name": "addBook",
+		"outputs": [
+			{
+				"name": "_success",
+				"type": "bool"
+			}
+		],
+		"payable": false,
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"name": "_msg",
+				"type": "string"
+			}
+		],
+		"payable": false,
+		"stateMutability": "nonpayable",
+		"type": "constructor"
+	},
+	{
+		"anonymous": false,
+		"inputs": [
+			{
+				"indexed": false,
+				"name": "_name",
+				"type": "string"
+			},
+			{
+				"indexed": false,
+				"name": "_author",
+				"type": "string"
+			}
+		],
+		"name": "ListAllBooks",
+		"type": "event"
 	}
 ]

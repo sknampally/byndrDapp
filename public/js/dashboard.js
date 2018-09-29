@@ -50,7 +50,7 @@ if (typeof web3 !== 'undefined') {
 mainContract.nameOfLibrary.call(function(err,res){
     if(!err){ 
         nameOfLibrary = res;
-        $("#nameOfLib").text(nameOfLibrary);
+        $("#nameOfLib").text(nameOfLibrary+"test2 ");
 
         
         console.log("name set to :" + nameOfLibrary);
@@ -68,7 +68,7 @@ function updateBookCount(){
         if(!err){ 
             totalBookCount = res;
             updateAvailableAndIssuedBookCount();  // called from within to ensure that totalBookCount is set
-            $("#totalBookCount").text(totalBookCount);          
+            $(".totalBookCount").text(totalBookCount);          
             console.log("name set to :" + totalBookCount);
         } else {
             totalBookCount = "error - could not connect to library";
@@ -83,9 +83,9 @@ function updateAvailableAndIssuedBookCount() {
         if(!err){ 
             availableBookCount = res;
             
-            $("#availableBookCount").text(availableBookCount);
+            $(".availableBookCount").text(availableBookCount);
             issuedBookCount = totalBookCount - availableBookCount;
-            $("#issuedBookCount").text(issuedBookCount);        
+            $(".issuedBookCount").text(issuedBookCount);        
             {
                 $('#list_books_block').css('display','block');
                 for (i = 0; i < issuedBookCount; i++) {
@@ -100,14 +100,19 @@ function updateAvailableAndIssuedBookCount() {
                         temp += res[2];
                         temp += '</td><td>Genre</td><td>'
                         temp += '13/9/2018'
-                        temp += '</td><td><span class="issue_book';
                         
-                        if ((res[4])){temp += '_disable">Book Issued'}else {temp+='">Issue Book'};
+                        if ((res[4])){temp += '</td><td><span class="issue_book_disable">Book Issued'}else {
+                            temp+='</td><td><span class="issue_book" data-id="1">Issue Book'};
                         temp += '</span></td></tr>';
                         $('#list_books tbody').append(temp);
+                        $('#list_books').DataTable(); // data table constructor
+                        $('#menu_dashboard').addClass('active');    
+               
+
+                      
                     });
-                $('#list_books').DataTable(); // data table constructor
-                $('#menu_dashboard').addClass('active');    
+                // $('#list_books').DataTable(); // data table constructor
+                // $('#menu_dashboard').addClass('active');    
                 
                 };
 
@@ -127,7 +132,7 @@ function updateAvailableAndIssuedBookCount() {
 mainContract.totalMemberCount.call(function(err,res){
     if(!err){ 
         totalMemberCount = res;
-        $("#totalMemberCount").text(totalMemberCount);
+        $(".totalMemberCount").text(totalMemberCount);
 
         
         console.log("total member count :" + totalMemberCount);
@@ -154,44 +159,44 @@ $(document).ready(function() {
     console.log("document ready")
     var state = GetParameterValues('state');
 
-    if(state == undefined) {
-        $('#list_books_block').css('display','block');
-        $('#list_books tbody').append('<tr><td>1</td><td>Tiger Nixon</td><td>System Architect</td><td>Edinburgh</td><td>61</td><td ><span class="issue_book" data-id="1">Issue Book</span></td></tr><tr><td>2</td><td>Garrett Winters</td><td>Accountant</td><td>Tokyo</td><td>63</td><td ><span class="issue_book_disable">Book Issued</span></td></tr>');
-        $('#list_books').DataTable(); // data table constructor
-        $('#menu_dashboard').addClass('active');
-    }
+    // if(state == undefined) {
+    //     $('#list_books_block').css('display','block');
+    //     $('#list_books tbody').append('<tr><td>1</td><td>Tiger Nixon</td><td>System Architect</td><td>Edinburgh</td><td>61</td><td ><span class="issue_book" data-id="1">Issue Book</span></td></tr><tr><td>2</td><td>Garrett Winters</td><td>Accountant</td><td>Tokyo</td><td>63</td><td ><span class="issue_book_disable">Book Issued</span></td></tr>');
+    //     $('#list_books').DataTable(); // data table constructor
+    //     $('#menu_dashboard').addClass('active');
+    // }
 
-    if((state == "list_of_books")) {
-        $('#list_books_block').css('display','block');
-        $('#list_books tbody').append('<tr><td>1</td><td>Tiger Nixon</td><td>System Architect</td><td>Edinburgh</td><td>61</td><td ><span class="issue_book" data-id="1">Issue Book</span></td></tr><tr><td>2</td><td>Garrett Winters</td><td>Accountant</td><td>Tokyo</td><td>63</td><td ><span class="issue_book_disable">Book Issued</span></td></tr>');
-        $('#list_books').DataTable(); // data table constructor
-        $('#dashboard_stats').css('display','none');
-        $('#menu_list_of_books').addClass('active');
-    }
+    // if((state == "list_of_books")) {
+    //     $('#list_books_block').css('display','block');
+    //     $('#list_books tbody').append('<tr><td>1</td><td>Tiger Nixon</td><td>System Architect</td><td>Edinburgh</td><td>61</td><td ><span class="issue_book" data-id="1">Issue Book</span></td></tr><tr><td>2</td><td>Garrett Winters</td><td>Accountant</td><td>Tokyo</td><td>63</td><td ><span class="issue_book_disable">Book Issued</span></td></tr>');
+    //     $('#list_books').DataTable(); // data table constructor
+    //     $('#dashboard_stats').css('display','none');
+    //     $('#menu_list_of_books').addClass('active');
+    // }
 
-    if(state == "available_books") {
-        $('#available_books_block').css('display','block');
-        $('#available_books tbody').append('<tr><td>1</td><td>Tiger Nixon</td><td>System Architect</td><td>Edinburgh</td><td>61</td><td ><span class="issue_book" data-id="1">Issue Book</span></td></tr><tr><td>2</td><td>Garrett Winters</td><td>Accountant</td><td>Tokyo</td><td>63</td><td ><span class="issue_book_disable">Book Issued</span></td></tr>');
-        $('#available_books').DataTable(); // data table constructor
-        $('#dashboard_stats').css('display','none');
-        $('#menu_available_books').addClass('active');
-    }
+    // if(state == "available_books") {
+    //     $('#available_books_block').css('display','block');
+    //     $('#available_books tbody').append('<tr><td>1</td><td>Tiger Nixon</td><td>System Architect</td><td>Edinburgh</td><td>61</td><td ><span class="issue_book" data-id="1">Issue Book</span></td></tr><tr><td>2</td><td>Garrett Winters</td><td>Accountant</td><td>Tokyo</td><td>63</td><td ><span class="issue_book_disable">Book Issued</span></td></tr>');
+    //     $('#available_books').DataTable(); // data table constructor
+    //     $('#dashboard_stats').css('display','none');
+    //     $('#menu_available_books').addClass('active');
+    // }
 
-    if(state == "books_issued") {
-        $('#issued_books_block').css('display','block');
-        var temp = [];
+    // if(state == "books_issued") {
+    //     $('#issued_books_block').css('display','block');
+    //     var temp = [];
         
-        console.log("issued book count is " + issuedBookCount);
-        for (i = 0; i < 5; i++) {
-            temp = '<tr><td>';
-            temp = temp + i;
-            temp = temp + '</td><td>Tiger Nixon</td><td>System Architect</td><td>Edinburgh</td><td>61</td><td><span class="issue_book_disable">Book Issued</span></td></tr>';
-            $('#issued_books tbody').append(temp);
+    //     console.log("issued book count is " + issuedBookCount);
+    //     for (i = 0; i < 5; i++) {
+    //         temp = '<tr><td>';
+    //         temp = temp + i;
+    //         temp = temp + '</td><td>Tiger Nixon</td><td>System Architect</td><td>Edinburgh</td><td>61</td><td><span class="issue_book_disable">Book Issued</span></td></tr>';
+    //         $('#issued_books tbody').append(temp);
             
-        };
+    //     };
         
-        $('#issued_books').DataTable(); // data table constructor
-    }
+    //     $('#issued_books').DataTable(); // data table constructor
+    // }
 
 
     /* Add book Functionality */
@@ -291,9 +296,10 @@ $('.join_library_status').html('Please fill all the fields');
 
 // Code for issue book -- Button click functionality
 
-        $('.issue_book').on('click',function(){
+        $('body').on('click','.issue_book',function(){
 
         var book_id = $(this).data('id');
+        alert(book_id);
 
         location.reload(!0);
 

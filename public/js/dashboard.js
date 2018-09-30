@@ -19,7 +19,7 @@ function GetParameterValues(param) {
     }  
 }
 
-var contractAddress = '0x05c7e2bd9346dbae890d6e7499c444144a2d4721';
+var contractAddress = '0xe1413c3f3ba5ec3ed494894e663ec98a2a83dc23';
 var mainContract = web3.eth.contract(abiMyLibrary).at(contractAddress);
 
 var totalBookCount;
@@ -50,7 +50,7 @@ if (typeof web3 !== 'undefined') {
 mainContract.nameOfLibrary.call(function(err,res){
     if(!err){ 
         nameOfLibrary = res;
-        $("#nameOfLib").text(nameOfLibrary+"test2 ");
+        $("#nameOfLib").text(nameOfLibrary);
 
         
         console.log("name set to :" + nameOfLibrary);
@@ -88,12 +88,13 @@ function updateAvailableAndIssuedBookCount() {
             $(".issuedBookCount").text(issuedBookCount);        
             {
                 $('#list_books_block').css('display','block');
-                for (i = 0; i < issuedBookCount; i++) {
+                
+                for (i = 0; i < totalBookCount; i++) {
                     mainContract.AllBooks.call(i,function(err,res)
                     {
                         console.log(res);
                         temp = '<tr><td>';
-                        temp += (i + 1); // human counters start from 1 also typecasting the i + 1 
+                        temp += res[0] ; // currently counter in smart contract byndr6 is off by 1 , but code is already fixed
                         temp += '</td><td>'
                         temp += res[1];
                         temp += '</td><td>'
@@ -101,8 +102,8 @@ function updateAvailableAndIssuedBookCount() {
                         temp += '</td><td>Genre</td><td>'
                         temp += '13/9/2018'
                         
-                        if ((res[4])){temp += '</td><td><span class="issue_book_disable">Book Issued'}else {
-                            temp+='</td><td><span class="issue_book" data-id="1">Issue Book'};
+                        if (!(res[4])){temp += '</td><td><span class="issue_book_disable">Book Issued'}else {
+                            temp+='</td><td><span class="issue_book" data-id="'+res[0]+'">Issue Book'};
                         temp += '</span></td></tr>';
                         $('#list_books tbody').append(temp);
                         $('#list_books').DataTable(); // data table constructor
@@ -220,7 +221,7 @@ $(document).ready(function() {
     if(book_genre && book_author && book_genre) {
         // Add Book Functionality 
         console.log (book_name,book_author);
-        mainContract.addBook(book_name,book_author, function(error, result){
+        mainContract.addBook(book_name,book_author, book_genre, "06/10/2018",function(error, result){
             if(!error){
                 console.log(JSON.stringify(result));
                 
@@ -271,9 +272,13 @@ e.preventDefault();
 var join_name = $('#join_name').val();
 var join_email = $('#join_email').val();
 
+
 if(join_name && join_email) {
 
 // Join Library Functionality 
+alert("join");
+
+mainContract.joinClub({from:web3.eth.accounts[0],gas:3000000,value:"1000000000"},function(err,res){if(!err){console.log(res)} else {console.log(err)}})
 
 // end Join Library functionality
 $('.join_library_status').removeClass('error');
@@ -299,7 +304,8 @@ $('.join_library_status').html('Please fill all the fields');
         $('body').on('click','.issue_book',function(){
 
         var book_id = $(this).data('id');
-        alert(book_id);
+  
+        mainContract.issueBook(book_id,function(err,res){if(!err){console.log(res)} else {console.log(err)}})
 
         location.reload(!0);
 

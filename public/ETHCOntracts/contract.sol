@@ -12,8 +12,13 @@ contract MyLibrary  {
     struct Book {
         uint16 bookNumber;
         string nameOfBook;
-        string author;
+        string author;        
+        string genre;
+        string date;
+
         address borrower;
+       
+
         bool issued;
     }
     Book[] public AllBooks;
@@ -25,34 +30,44 @@ contract MyLibrary  {
         owner = msg.sender;
     }
     
-    function addBook(string _nameOfBook, string _author) public returns (bool _success) {
-        require(msg.sender == owner, "Only owner can add books"); // allow only the owner of the library to add books
+    function addBook(string _nameOfBook, string _author, string _genre, string _date) public returns (bool _success) {
+        require(msg.sender == owner, "Only owner can add books"); 
+        // allow only the owner of the library to add books
         Book memory _book;
+        totalBookCount++;  
         _book.bookNumber = totalBookCount;
         _book.nameOfBook = _nameOfBook; 
         _book.author = _author;
+        _book.genre = _genre;
+        _book.date = _date;
         AllBooks.push(_book);
-        totalBookCount++; 
         availableBookCount++;
         return true;
     }
 
     function joinClub () public payable returns (bool success) {
-        require (msg.value > 2,"please pay 2 ether to join");
-        balanceOf[msg.sender] += msg.value;
+        if (balanceOf[msg.sender] == 0) {
+            totalMemberCount++;
+        }
+         //  0.05 ether as joining fee and also allow 1 book per every 0.005 ether paid, user can borrow only if the balanceOf is greater than 1
+        balanceOf[msg.sender] += (msg.value)*100/ (1 ether);
+         // take 0.05 ether as joining fee and also allow 1 book per every 0.005 ether paid
         return true;
     }
     
     function issueBook (uint8 _bookNumber) public returns (bool success){
         require(AllBooks[_bookNumber].borrower == 0x0, "book already issued" );
-        if (balanceOf[msg.sender] <= 0) {
-            return false;
-        }
+        require(balanceOf[msg.sender] >= 2 , "insufficient balance");
+        balanceOf[msg.sender] -= 1;
         AllBooks[_bookNumber].borrower = msg.sender;
+        AllBooks[_bookNumber].issued = true;
         return true;
     }
 
 
+    function() payable public {
+        revert(); // fallback functioon 
+    }
     function finito () public payable {
         selfdestruct(owner);
         

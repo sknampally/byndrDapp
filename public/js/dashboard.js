@@ -19,7 +19,7 @@ function GetParameterValues(param) {
     }  
 }
 
-var contractAddress = '0xe1413c3f3ba5ec3ed494894e663ec98a2a83dc23';
+var contractAddress = '0xfabfb252f0de5c5f87712865934c7ada17acaf88';
 var mainContract = web3.eth.contract(abiMyLibrary).at(contractAddress);
 
 var totalBookCount;
@@ -90,9 +90,10 @@ function updateAvailableAndIssuedBookCount() {
                 $('#list_books_block').css('display','block');
                 counterStop = totalBookCount;
                 for (i = 0; i < counterStop; i++) {
-                   
+                    console.log(i);
                     mainContract.AllBooks.call(i,function(err,res)
                     {
+                        console.log(i);
                         temp = '<tr><td>';
                         temp += res[0] ; // currently counter in smart contract byndr6 is off by 1 , but code is already fixed
                         temp += '</td><td>'
@@ -102,15 +103,20 @@ function updateAvailableAndIssuedBookCount() {
                         temp += '</td><td>Genre</td><td>'
                         temp += '13/9/2018'
                         
-                        if (!(res[4])){temp += '</td><td><span class="issue_book_disable">Book Issued'}else {
-                            temp+='</td><td><span class="issue_book" data-id="'+res[0]+'">Issue Book'};
+                        if ((res[6])){
+                            temp += '</td><td><span class="issue_book_disable">Book Issued'}
+                        else {
+                            temp+='</td><td><span class="issue_book" data-id="'+(res[0]-1)+'">Issue Book'
+                        };
 
-                            temp += '</span></td></tr>';
-                       
+                        temp += '</span></td></tr>';
+                        console.log(res[0].c[0], res[6], temp);
                         $('#list_books tbody').append(temp);
+                       
                         if ( res[0].c[0] == (counterStop.c[0] )) {
                             $('#list_books').DataTable(); // data table constructor
                             $('#menu_dashboard').addClass('active'); 
+                            console.log(res,counterStop);
                            
                         }
                     });
@@ -219,17 +225,23 @@ $(document).ready(function() {
     var book_name = $('#book_name').val();
     var book_author = $('#book_author').val();
     var book_genre = $('#book_genre').val();
+    var today = new Date('d/m/Y');
 
     if(book_genre && book_author && book_genre) {
         // Add Book Functionality 
         console.log (book_name,book_author);
-        mainContract.addBook(book_name,book_author, book_genre, "06/10/2018",function(error, result){
+        
+        mainContract.addBook(book_name,book_author, book_genre, today,function(error, result){
             if(!error){
                 console.log(JSON.stringify(result));
                 
                 $('.add_book_status').removeClass('error');
                 $('.add_book_status').addClass('success');
                 $('.add_book_status').html('You Have added Book Successfully');
+                // RAHEEM -> Close this window here 
+                setTimeout(function(){ $('.add_book_main').fadeOut(); }, 2000);
+
+                // change to todays date 
             }
             else {
                 console.error(error);

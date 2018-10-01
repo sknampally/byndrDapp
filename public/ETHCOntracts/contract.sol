@@ -9,6 +9,7 @@ contract MyLibrary  {
     uint16 public availableBookCount;
     uint8 public totalMemberCount;
      
+     
     struct Book {
         uint16 bookNumber;
         string nameOfBook;

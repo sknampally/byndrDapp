@@ -88,11 +88,11 @@ function updateAvailableAndIssuedBookCount() {
             $(".issuedBookCount").text(issuedBookCount);        
             {
                 $('#list_books_block').css('display','block');
-                
-                for (i = 0; i < totalBookCount; i++) {
+                counterStop = totalBookCount;
+                for (i = 0; i < counterStop; i++) {
+                   
                     mainContract.AllBooks.call(i,function(err,res)
                     {
-                        console.log(res);
                         temp = '<tr><td>';
                         temp += res[0] ; // currently counter in smart contract byndr6 is off by 1 , but code is already fixed
                         temp += '</td><td>'
@@ -104,13 +104,15 @@ function updateAvailableAndIssuedBookCount() {
                         
                         if (!(res[4])){temp += '</td><td><span class="issue_book_disable">Book Issued'}else {
                             temp+='</td><td><span class="issue_book" data-id="'+res[0]+'">Issue Book'};
-                        temp += '</span></td></tr>';
-                        $('#list_books tbody').append(temp);
-                        $('#list_books').DataTable(); // data table constructor
-                        $('#menu_dashboard').addClass('active');    
-               
 
-                      
+                            temp += '</span></td></tr>';
+                       
+                        $('#list_books tbody').append(temp);
+                        if ( res[0].c[0] == (counterStop.c[0] )) {
+                            $('#list_books').DataTable(); // data table constructor
+                            $('#menu_dashboard').addClass('active'); 
+                           
+                        }
                     });
                 // $('#list_books').DataTable(); // data table constructor
                 // $('#menu_dashboard').addClass('active');    

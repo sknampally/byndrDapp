@@ -5,7 +5,7 @@ showloading();
 
 
 
-var contractAddress = '0x619b31ee72c74a5baff90f9df7879af112c57e32';
+var contractAddress = '0x0dd5ccda367eb48126300c075d0eeaad94771c2c';
 var mainContract = web3.eth.contract(abiMyLibrary).at(contractAddress);
 
 var totalBookCount;
@@ -15,136 +15,48 @@ var totalMembers;
 var networkID;
 var nameOfLibrary
 
-if (typeof web3 !== 'undefined') {
-    var web3 = new Web3(web3.currentProvider);
-    if (web3.currentProvider.isMetaMask === true || web3.currentProvider.isTrust === true) {
-        web3.version.getNetwork((err, netId) => {
-            networkID = netId;
-            if (netId == 3) {
-                // Do nothing
-            } else {
-                alert("You're not on right network. Switch to Ropsten Network in Metamask.");
-            }
-            account = web3.eth.accounts[0];
-            ethBalance(account);
-        });
-    } else {
-        //$('.yourAddr').text('Not found');
-    }
-}
+checkCurrentProvider();
+updateLibraryName();
+console.log("reached to lib");
 
-mainContract.nameOfLibrary.call(function(err,res){
-    if(!err){ 
-        nameOfLibrary = res;
-        $("#nameOfLib").text(nameOfLibrary);
-
-        
-        console.log("name set to :" + nameOfLibrary);
-    } else {
-        nameOfLibrary = "error - could not connect to library";
-        console.log("name set to :"+nameOfLibrary);
-    }
-});
 
 updateBookCount();
 
 /* add  total book count */
 
+updateTotalMemberCount();
 
 
 
 
 
-mainContract.totalMemberCount.call(function(err,res){
-    if(!err){ 
-        totalMemberCount = res;
-        $(".totalMemberCount").text(totalMemberCount);
-
-        
-        console.log("total member count :" + totalMemberCount);
-    } else {
-        totalMemberCount = "error - could not connect to library";
-        console.log("total member count :"+totalMemberCount);
-    }
-});
 
 
-
-function ethBalance(account) {
-    web3.eth.getBalance(account, function (err, res) {
-        if (!err) {
-            // Add the balance to UI
-        } else {
-            web3Error();
-            console.error(err);
-        };
-    });
-}
+// function ethBalance(account) {
+//     web3.eth.getBalance(account, function (err, res) {
+//         if (!err) {
+//             // Add the balance to UI
+//         } else {
+//             web3Error();
+//             console.error(err);
+//         };
+//     });
+// }
 
 $(document).ready(function() {
     console.log("document ready")
     var state = GetParameterValues('state');
+    console.log(state);
 
-    // if(state == undefined) {
-    //     $('#list_books_block').css('display','block');
-    //     $('#list_books tbody').append('<tr><td>1</td><td>Tiger Nixon</td><td>System Architect</td><td>Edinburgh</td><td>61</td><td ><span class="issue_book" data-id="1">Issue Book</span></td></tr><tr><td>2</td><td>Garrett Winters</td><td>Accountant</td><td>Tokyo</td><td>63</td><td ><span class="issue_book_disable">Book Issued</span></td></tr>');
-    //     $('#list_books').DataTable(); // data table constructor
-    //     $('#menu_dashboard').addClass('active');
-    // }
+    
 
-    // if((state == "list_of_books")) {
-    //     $('#list_books_block').css('display','block');
-    //     $('#list_books tbody').append('<tr><td>1</td><td>Tiger Nixon</td><td>System Architect</td><td>Edinburgh</td><td>61</td><td ><span class="issue_book" data-id="1">Issue Book</span></td></tr><tr><td>2</td><td>Garrett Winters</td><td>Accountant</td><td>Tokyo</td><td>63</td><td ><span class="issue_book_disable">Book Issued</span></td></tr>');
-    //     $('#list_books').DataTable(); // data table constructor
-    //     $('#dashboard_stats').css('display','none');
-    //     $('#menu_list_of_books').addClass('active');
-    // }
-
-    // if(state == "available_books") {
-    //     $('#available_books_block').css('display','block');
-    //     $('#available_books tbody').append('<tr><td>1</td><td>Tiger Nixon</td><td>System Architect</td><td>Edinburgh</td><td>61</td><td ><span class="issue_book" data-id="1">Issue Book</span></td></tr><tr><td>2</td><td>Garrett Winters</td><td>Accountant</td><td>Tokyo</td><td>63</td><td ><span class="issue_book_disable">Book Issued</span></td></tr>');
-    //     $('#available_books').DataTable(); // data table constructor
-    //     $('#dashboard_stats').css('display','none');
-    //     $('#menu_available_books').addClass('active');
-    // }
-
-    // if(state == "books_issued") {
-    //     $('#issued_books_block').css('display','block');
-    //     var temp = [];
-        
-    //     console.log("issued book count is " + issuedBookCount);
-    //     for (i = 0; i < 5; i++) {
-    //         temp = '<tr><td>';
-    //         temp = temp + i;
-    //         temp = temp + '</td><td>Tiger Nixon</td><td>System Architect</td><td>Edinburgh</td><td>61</td><td><span class="issue_book_disable">Book Issued</span></td></tr>';
-    //         $('#issued_books tbody').append(temp);
-            
-    //     };
-        
-    //     $('#issued_books').DataTable(); // data table constructor
-    // }
-
-    /* Current User Role as a Normal User or Pro user */
-    // First Set as Normal user . then do  a call to change the button if the user has already joined
 
     $('.current_user_role').html('<a class="btn btn-success join_library">Join Library</a>');
     $('#menu_more_books').css('display','none');
     $('#menu_join_library').css('display','block');
-    var curr_user_role = 'more_books';
+    checkUserStatus();
 
-    if(curr_user_role == 'more_books') {
 
-        $('.current_user_role').html('<a class="btn btn-success more_books">Go Pro</a>');
-        $('#menu_more_books').css('display','block');
-        $('#menu_join_library').css('display','none');
-
-    }else{
-
-        $('.current_user_role').html('<a class="btn btn-success join_library">Join Library</a>');
-        $('#menu_more_books').css('display','none');
-        $('#menu_join_library').css('display','block');
-
-    }
 
 
     /* Add book Functionality */
@@ -159,44 +71,27 @@ $(document).ready(function() {
     });
 
     $('#add_book_form').submit(function(e){
-    e.preventDefault();
+        e.preventDefault();
 
-    var book_name = $('#book_name').val();
-    var book_author = $('#book_author').val();
-    var book_genre = $('#book_genre').val();
-    var today = new Date('d/m/Y');
+        var book_name = $('#book_name').val();
+        var book_author = $('#book_author').val();
+        var book_genre = $('#book_genre').val();
+        var today = new Date('d/m/Y');
 
-    if(book_genre && book_author && book_genre) {
+        if(book_genre && book_author && book_genre) {
         // Add Book Functionality 
-        console.log (book_name,book_author, book_genre, today);
-        // getting invalid date here 
-        mainContract.addBook(book_name,book_author, book_genre, "22/09/2018",function(error, result){
-            if(!error){
-                console.log(JSON.stringify(result));
+            console.log (book_name,book_author, book_genre, today);
+            // getting invalid date here 
+            mainContract.addBook(book_name,book_author, book_genre, "22/09/2018",function(error, result){
+                addedBook(error,result);
                 
-                $('.add_book_status').removeClass('error');
-                $('.add_book_status').addClass('success');
-                $('.add_book_status').html('You Have added Book Successfully');
-                // RAHEEM -> Close this window here 
-                setTimeout(function(){ location.reload(!0); }, 1000);
-                // change to todays date 
-            }
-            else {
-                console.error(error);
-                $('.add_book_status').removeClass('success');
-                $('.add_book_status').addClass('error');
-                $('.add_book_status').html('Please fill all the fields');
-            }
-         }) 
-        // end add book functionality
-
-    } else {
-        $('.add_book_status').removeClass('success');
-        $('.add_book_status').addClass('error');
-        $('.add_book_status').html('Please fill all the fields');
-
-
-    }
+            }) 
+            // end add book functionality
+        } else {
+            $('.add_book_status').removeClass('success');
+            $('.add_book_status').addClass('error');
+            $('.add_book_status').html('Please fill all the fields');
+        }
     console.log("demo");
 });
 
@@ -311,21 +206,23 @@ $('.more_books').on('click',function(){
 
     });
 
-/* end of Code for Issue Book*/
 
-    // readd the button for selecting Genre 
-    $("#book_genre").select2({
-        theme: "bootstrap",
-        placeholder: "Select a Genre"
-    });
+
+    // Drop down button for book_genre added  
+    // $("#book_genre").select2({
+    //     theme: "bootstrap",
+    //     placeholder: "Select a Genre"
+    // });
 
 
 } );
 
+stopShowLoading();
+/** document loaded and waiting for events */
 
-stopLoading();
 
 
+/***** FUNCTIONS BELOW  *******/
 
 // starts showing the loader function 
 function showloading() {
@@ -333,7 +230,7 @@ function showloading() {
 }
   
 // stops showing the loader function   
-function stopLoading() {
+function stopShowLoading() {
     $('#loader').css('display','none');
 }
 
@@ -348,16 +245,17 @@ function GetParameterValues(param) {
     }  
 }
 
+
 function updateBookCount(){
     mainContract.totalBookCount.call(function(err,res){
         if(!err){ 
             totalBookCount = res;
             updateAvailableAndIssuedBookCount();  // called from within to ensure that totalBookCount is set
             $(".totalBookCount").text(totalBookCount);          
-            console.log("name set to :" + totalBookCount);
+            console.log("total book count  :" + totalBookCount);
         } else {
             totalBookCount = "error - could not connect to library";
-            console.log("total book count set to :"+totalBookCount);
+            console.log("total book count  :"+totalBookCount);
         }
     });
 }
@@ -375,13 +273,15 @@ function updateAvailableAndIssuedBookCount() {
                 $('#list_books_block').css('display','block');
                 counterStop = totalBookCount;
                 for (i = 0; i < counterStop; i++) {   
-                    mainContract.AllBooks.call(i,updateTable(err,res));
+                    mainContract.AllBooks.call(i,function(err,res){
+                        updateTable(err,res);
+                    });
                 };
             }
             
         } else {
             avaialbleBookCount = "error - could not connect to library";
-            console.log("name set to :"+avaialbleBookCount);
+            console.log("available book count to :"+avaialbleBookCount);
         }
 });
 }
@@ -399,6 +299,7 @@ function updateTable (err,book){
         bool issued;
     }
     */
+   console.log("updateTable with ", book);
     temp = '<tr><td>';
     temp += book[0] ; // currently counter in smart contract byndr6 is off by 1 , but code is already fixed
     temp += '</td><td>'
@@ -420,7 +321,157 @@ function updateTable (err,book){
     if ( book[0].c[0] == (counterStop.c[0] )) {
         $('#list_books').DataTable(); // data table constructor
         $('#menu_dashboard').addClass('active'); 
-        console.log(res,counterStop);
+        // console.log(book,counterStop);
        
     }
 }
+
+function checkCurrentProvider(){ 
+    if (typeof web3 !== 'undefined') {
+        var web3 = new Web3(web3.currentProvider);
+        if (web3.currentProvider.isMetaMask === true || web3.currentProvider.isTrust === true) {
+            web3.version.getNetwork((err, netId) => {
+                networkID = netId;
+                if (netId == 3) {
+                    // Do nothing
+                } else {
+                   
+                    alert("You're not on right network. Switch to Ropsten Network in Metamask.");
+                }
+                account = web3.eth.accounts[0];
+                ethBalance(account);
+            });
+        } else {
+            //$('.yourAddr').text('Not found');
+        }
+    }
+}
+
+function updateLibraryName(){
+    mainContract.nameOfLibrary.call(function(err,res){
+        if(!err){ 
+            nameOfLibrary = res;
+            $("#nameOfLib").text(nameOfLibrary);
+    
+            
+            console.log("name set to :" + nameOfLibrary);
+        } else {
+            nameOfLibrary = "error - could not connect to library";
+            console.log("name set to :"+nameOfLibrary);
+        }
+    });
+}
+
+function updateTotalMemberCount(){
+    mainContract.totalMemberCount.call(function(err,res){
+        if(!err){ 
+            totalMemberCount = res;
+            $(".totalMemberCount").text(totalMemberCount);
+
+            
+            console.log("total member count :" + totalMemberCount);
+        } else {
+            totalMemberCount = "error - could not connect to library";
+            console.log("total member count :"+totalMemberCount);
+        }
+    });
+}
+
+function addedBook(error,result){
+    if(!error){
+        console.log(JSON.stringify(result));
+        
+        $('.add_book_status').removeClass('error');
+        $('.add_book_status').addClass('success');
+        $('.add_book_status').html('You Have added Book Successfully');
+        // RAHEEM -> Close this window here 
+        setTimeout(function(){ location.reload(!0); }, 1000);
+        // change to todays date 
+    }
+    else {
+        console.error(error);
+        $('.add_book_status').removeClass('success');
+        $('.add_book_status').addClass('error');
+        $('.add_book_status').html('Please fill all the fields');
+    }
+}
+function checkUserStatus() {
+    console.log("going to check user status");  
+    mainContract.balanceOf.call(web3.eth.accounts[0],function(err,res){
+        console.log(res);
+        if (res> 0){
+            console.log("member");
+            $('.current_user_role').html('<a class="btn btn-success more_books">Go Pro</a>');
+            $('#menu_more_books').css('display','block');
+            $('#menu_join_library').css('display','none');
+        } else {
+            console.log("nonmember");
+            $('.current_user_role').html('<a class="btn btn-success more_books">Go Pro</a>');
+            $('#menu_more_books').css('display','block');
+            $('#menu_join_library').css('display','none');
+        }
+
+    
+    
+    })
+    
+
+
+    // var curr_user_role = 'more_books';
+
+    // if(curr_user_role == 'more_books') {
+
+
+
+    // }else{
+
+    //     $('.current_user_role').html('<a class="btn btn-success join_library">Join Library</a>');
+    //     $('#menu_more_books').css('display','none');
+    //     $('#menu_join_library').css('display','block');
+
+    // }
+}
+
+
+
+// if(state == undefined) {
+    //     $('#list_books_block').css('display','block');
+    //     $('#list_books tbody').append('<tr><td>1</td><td>Tiger Nixon</td><td>System Architect</td><td>Edinburgh</td><td>61</td><td ><span class="issue_book" data-id="1">Issue Book</span></td></tr><tr><td>2</td><td>Garrett Winters</td><td>Accountant</td><td>Tokyo</td><td>63</td><td ><span class="issue_book_disable">Book Issued</span></td></tr>');
+    //     $('#list_books').DataTable(); // data table constructor
+    //     $('#menu_dashboard').addClass('active');
+    // }
+
+    // if((state == "list_of_books")) {
+    //     $('#list_books_block').css('display','block');
+    //     $('#list_books tbody').append('<tr><td>1</td><td>Tiger Nixon</td><td>System Architect</td><td>Edinburgh</td><td>61</td><td ><span class="issue_book" data-id="1">Issue Book</span></td></tr><tr><td>2</td><td>Garrett Winters</td><td>Accountant</td><td>Tokyo</td><td>63</td><td ><span class="issue_book_disable">Book Issued</span></td></tr>');
+    //     $('#list_books').DataTable(); // data table constructor
+    //     $('#dashboard_stats').css('display','none');
+    //     $('#menu_list_of_books').addClass('active');
+    // }
+
+    // if(state == "available_books") {
+    //     $('#available_books_block').css('display','block');
+    //     $('#available_books tbody').append('<tr><td>1</td><td>Tiger Nixon</td><td>System Architect</td><td>Edinburgh</td><td>61</td><td ><span class="issue_book" data-id="1">Issue Book</span></td></tr><tr><td>2</td><td>Garrett Winters</td><td>Accountant</td><td>Tokyo</td><td>63</td><td ><span class="issue_book_disable">Book Issued</span></td></tr>');
+    //     $('#available_books').DataTable(); // data table constructor
+    //     $('#dashboard_stats').css('display','none');
+    //     $('#menu_available_books').addClass('active');
+    // }
+
+    // if(state == "books_issued") {
+    //     $('#issued_books_block').css('display','block');
+    //     var temp = [];
+        
+    //     console.log("issued book count is " + issuedBookCount);
+    //     for (i = 0; i < 5; i++) {
+    //         temp = '<tr><td>';
+    //         temp = temp + i;
+    //         temp = temp + '</td><td>Tiger Nixon</td><td>System Architect</td><td>Edinburgh</td><td>61</td><td><span class="issue_book_disable">Book Issued</span></td></tr>';
+    //         $('#issued_books tbody').append(temp);
+            
+    //     };
+        
+    //     $('#issued_books').DataTable(); // data table constructor
+    // }
+
+    /* Current User Role as a Normal User or Pro user */
+    // First Set as Normal user . then do  a call to change the button if the user has already joined

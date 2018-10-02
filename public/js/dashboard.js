@@ -41,15 +41,16 @@ $(document).ready(function() {
         var book_name = $('#book_name').val();
         var book_author = $('#book_author').val();
         var book_genre = $('#book_genre').val();
-        var today = new Date('d/m/Y');
+        var  d = new Date();
+        var today = d.getDate() + "/" + (d.getMonth()+1) + "/" + d.getFullYear();
 
-         console.log("today is " , today);  /* date not coming correctly */ 
-         alert();
+        console.log("today is " , today);  
+        alert();
 
         if(book_genre && book_author && book_genre) {
          
             console.log ("adding book", book_name,book_author, book_genre, today); 
-            mainContract.addBook(book_name,book_author, book_genre, "22/09/2018",function(error, result){
+            mainContract.addBook(book_name,book_author, book_genre, today,function(error, result){
                 addedBook(error,result);
   
             })

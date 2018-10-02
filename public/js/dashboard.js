@@ -1,9 +1,5 @@
 
-showloading();
-
-
-
-
+showloading(); // prevent user actions while the document is being loaded
 
 var contractAddress = '0x0dd5ccda367eb48126300c075d0eeaad94771c2c';
 var mainContract = web3.eth.contract(abiMyLibrary).at(contractAddress);
@@ -15,51 +11,20 @@ var totalMembers;
 var networkID;
 var nameOfLibrary
 
+// a series of updates by fetching data from the bockchain
 checkCurrentProvider();
 updateLibraryName();
-console.log("reached to lib");
-
-
 updateBookCount();
-
-/* add  total book count */
-
 updateTotalMemberCount();
+setJoinLibraryButton();
 
 
 
 
-
-
-
-// function ethBalance(account) {
-//     web3.eth.getBalance(account, function (err, res) {
-//         if (!err) {
-//             // Add the balance to UI
-//         } else {
-//             web3Error();
-//             console.error(err);
-//         };
-//     });
-// }
 
 $(document).ready(function() {
     console.log("document ready")
     var state = GetParameterValues('state');
-    console.log(state);
-
-    
-
-
-    $('.current_user_role').html('<a class="btn btn-success join_library">Join Library</a>');
-    $('#menu_more_books').css('display','none');
-    $('#menu_join_library').css('display','block');
-    checkUserStatus();
-
-
-
-
-    /* Add book Functionality */
 
     $('.add_book').on('click',function(){
         $('.add_book_main').fadeIn();
@@ -78,100 +43,75 @@ $(document).ready(function() {
         var book_genre = $('#book_genre').val();
         var today = new Date('d/m/Y');
 
+         console.log("today is " , today);  /* date not coming correctly */ 
+         alert();
+
         if(book_genre && book_author && book_genre) {
-        // Add Book Functionality 
-            console.log (book_name,book_author, book_genre, today);
-            // getting invalid date here 
+         
+            console.log ("adding book", book_name,book_author, book_genre, today); 
             mainContract.addBook(book_name,book_author, book_genre, "22/09/2018",function(error, result){
                 addedBook(error,result);
-                
-            }) 
-            // end add book functionality
-        } else {
+  
+            })
+            // end add book functionality} else {
             $('.add_book_status').removeClass('success');
             $('.add_book_status').addClass('error');
             $('.add_book_status').html('Please fill all the fields');
         }
-    console.log("demo");
-});
+         console.log("demo");
+    });
 
-/* Add book Functionality */
-
-
-/* Join Library Functionality */
-
-$('.join_library').on('click',function(){
-
-$('.join_library_main').fadeIn();
-
-});
+    $('.join_library').on('click',function(){
+        $('.join_library_main').fadeIn();
+    });
 
 
-$('.join_library_close').on('click',function(){
+    $('.join_library_close').on('click',function(){
+        $('.join_library_main').fadeOut();
+    });
 
-$('.join_library_main').fadeOut();
-
-});
-
-$('#join_library_form').submit(function(e){
-e.preventDefault();
-
-var join_name = $('#join_name').val();
-var join_email = $('#join_email').val();
-
-
-if(join_name && join_email) {
-
-// Join Library Functionality 
-alert("join");
-
-mainContract.joinClub({from:web3.eth.accounts[0],gas:3000000,value:"1000000000"},function(err,res){if(!err){console.log(res)} else {console.log(err)}})
-
-// end Join Library functionality
-$('.join_library_status').removeClass('error');
-$('.join_library_status').addClass('success');
-$('.join_library_status').html('You Have Joined Library Successfully');
-
-setTimeout(function(){ location.reload(!0); }, 1000);
-
-}else{
-
-$('.join_library_status').removeClass('success');
-$('.join_library_status').addClass('error');
-$('.join_library_status').html('Please fill all the fields');
-
-}
-
-});
-
-/* Join Library Functionality */
-
-
-/* More books Functionality */
-
-$('.more_books').on('click',function(){
-
-    $('.more_books_main').fadeIn();
+    $('#join_library_form').submit(function(e){
+        e.preventDefault();
+        var join_name = $('#join_name').val();
+        var join_email = $('#join_email').val();
+        if(join_name && join_email) {
+            console.log("Join Library ", join_name, join_email);
+            mainContract.joinClub({from:web3.eth.accounts[0],gas:3000000,value:"1000000000"},function(err,res){
+                if(!err){
+                    $('.join_library_status').removeClass('error');
+                    $('.join_library_status').addClass('success');
+                    $('.join_library_status').html('You Have Joined Library Successfully');
+            
+                    setTimeout(function(){ location.reload(!0); }, 1000);
+                }
+                else {
+                    $('.join_library_status').removeClass('success');
+                    $('.join_library_status').addClass('error');
+                    $('.join_library_status').html('Please fill all the fields');
+                }});
+        }
+        else {
+            $('.join_library_status').removeClass('success');
+            $('.join_library_status').addClass('error');
+            $('.join_library_status').html('Please fill all the fields');
+        }
+    });
+    
+    $('.more_books').on('click',function(){
+        $('.more_books_main').fadeIn();
     });
     
     
     $('.more_books_close').on('click',function(){
-    
-    $('.more_books_main').fadeOut();
-    
+        $('.more_books_main').fadeOut();
     });
     
     $('#more_books_form').submit(function(e){
-    e.preventDefault();
-    
-    var more_books_name = $('#more_books_name').val();
-    var more_books_email = $('#more_books_email').val();
-    
-    
-    if(more_books_name && more_books_email) {
-    
-    // More books Functionality 
-    alert("Go Pro");
+        e.preventDefault();
+        var more_books_name = $('#more_books_name').val();
+        var more_books_email = $('#more_books_email').val();
+        if(more_books_name && more_books_email) {
+    alert("More Books");
     
     mainContract.joinClub({from:web3.eth.accounts[0],gas:3000000,value:"1000000000"},function(err,res){if(!err){console.log(res)} else {console.log(err)}})
     
@@ -198,7 +138,7 @@ $('.more_books').on('click',function(){
     
     /* More books Functionality */
 
-// Code for issue book -- Button click functionality
+    // Code for issue book -- Button click functionality
     $('body').on('click','.issue_book',function(){
         var book_id = $(this).data('id');
         mainContract.issueBook(book_id,function(err,res){if(!err){console.log(res)} else {console.log(err)}})
@@ -244,6 +184,20 @@ function GetParameterValues(param) {
         }  
     }  
 }
+
+// sample code. not executed
+function ethBalance(account) {
+    web3.eth.getBalance(account, function (err, res) {
+        if (!err) {
+            // Add the balance to UI
+            console.log("ethBalance :",res)
+        } else {
+            web3Error();
+            console.error(err);
+        };
+    });
+}
+
 
 
 function updateBookCount(){
@@ -401,7 +355,7 @@ function checkUserStatus() {
         console.log(res);
         if (res> 0){
             console.log("member");
-            $('.current_user_role').html('<a class="btn btn-success more_books">Go Pro</a>');
+            $('.current_user_role').html('<a class="btn btn-success more_books">More Books</a>');
             $('#menu_more_books').css('display','block');
             $('#menu_join_library').css('display','none');
         } else {
@@ -410,29 +364,15 @@ function checkUserStatus() {
             $('#menu_more_books').css('display','block');
             $('#menu_join_library').css('display','none');
         }
-
-    
-    
     })
-    
-
-
-    // var curr_user_role = 'more_books';
-
-    // if(curr_user_role == 'more_books') {
-
-
-
-    // }else{
-
-    //     $('.current_user_role').html('<a class="btn btn-success join_library">Join Library</a>');
-    //     $('#menu_more_books').css('display','none');
-    //     $('#menu_join_library').css('display','block');
-
-    // }
 }
 
-
+function setJoinLibraryButton(){
+    $('.current_user_role').html('<a class="btn btn-success join_library">Join Library</a>');
+    $('#menu_more_books').css('display','none');
+    $('#menu_join_library').css('display','block');
+    checkUserStatus(); //** checks if the user is a member */
+}
 
 // if(state == undefined) {
     //     $('#list_books_block').css('display','block');

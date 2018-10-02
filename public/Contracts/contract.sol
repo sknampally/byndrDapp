@@ -19,9 +19,9 @@ contract MyLibrary  {
         address borrower;
         bool issued;
     }
-    Book[] public AllBooks;
+    Book[] public AllBooks-bck;
     mapping (address => uint256) public balanceOf;
-    mapping (uint16 => Book) public BookLibrary;
+    mapping (uint16 => Book) public AllBooks;
 
     /* This runs when the contract is executed */
     constructor(string _msg) public {

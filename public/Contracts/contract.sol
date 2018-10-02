@@ -16,14 +16,12 @@ contract MyLibrary  {
         string author;        
         string genre;
         string date;
-
         address borrower;
-       
-
         bool issued;
     }
     Book[] public AllBooks;
     mapping (address => uint256) public balanceOf;
+    mapping (uint16 => Book) public BookLibrary;
 
     /* This runs when the contract is executed */
     constructor(string _msg) public {
@@ -63,6 +61,7 @@ contract MyLibrary  {
         balanceOf[msg.sender] -= 1;
         AllBooks[_bookNumber].borrower = msg.sender;
         AllBooks[_bookNumber].issued = true;
+        availableBookCount--;       
         return true;
     }
 

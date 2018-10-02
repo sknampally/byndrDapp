@@ -97,6 +97,11 @@
             <span class="nav-label">Join Library</span>
           </a>
         </li>
+        <li class="" id="menu_more_books">
+            <a class="more_books">
+              <span class="nav-label">More Books</span>
+            </a>
+        </li>
       </ul>
 
     </div> 
@@ -112,10 +117,8 @@
 <div class="normalheader">
     <div class="hpanel">
         <div class="panel-body">
-            <div style="display: block; float: right;margin-top: 20px;margin-right: 25px;">
-              <a class="btn btn-success join_library">
-                  Join Library
-              </a>
+            <div style="display: block; float: right;margin-top: 20px;margin-right: 25px;" class="current_user_role">
+              
             </div>
             <h3 class="font-light text-byndr">
                 Ethereum Blockchain - <span id="nameOfLib">Base</span> Libary Dapp
@@ -392,6 +395,33 @@
             </div>
         </div>
     </div>
+
+
+    <div class="more_books_main" style="display:none;">
+        <div class="col-sm-12">
+            <span class="more_books_close"><img src="images/cancel.png" width="30" /></span>
+        </div>
+        <div class="more_books_inr">
+            <div class="more_books_title text-uppercase">Go Pro</div>
+            <div class="more_books_status"></div>
+            <div class="more_books_form">
+                <div class="more_books_form_inside">
+                    <form id="more_books_form">
+                        <div class="more_books_single">
+                            <input type="text" placeholder="Name" id="more_books_name"/>
+                        </div>
+                        <div class="more_books_single">
+                            <input type="email" placeholder="Email" id="more_books_email"/>
+                        </div>
+                        <div class="more_books_single">
+                            <button type="submit">Go Pro</button>
+                        </div>                    
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
 
   <script src="js/jquery.min.js"></script>
   <script src="css/bootstrap/dist/js/bootstrap.min.js"></script>

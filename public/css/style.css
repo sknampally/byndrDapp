@@ -21,7 +21,7 @@ body::-webkit-scrollbar-thumb {
   background-color: darkgrey;
   outline: 1px solid slategrey;
 }
-.add_book_main,.join_library_main {
+.add_book_main,.join_library_main,.more_books_main {
     position: fixed;
     top: 0;
     background: rgba(255,255,255,0.98);
@@ -30,18 +30,18 @@ body::-webkit-scrollbar-thumb {
     padding: 75px 0;
 	color: #333;
 	z-index: 9;
-}.add_book_inr,.join_library_inr {
+}.add_book_inr,.join_library_inr, .more_books_inr {
     width: 100%;
     max-width: 300px;
 	margin: 0 auto;
 	padding-top: 100px;
 }
-.add_book_title,.join_library_title {
+.add_book_title,.join_library_title,.more_books_title {
     font-size: 24px;
     text-align: center;
     margin-bottom:7px;
 }
-.add_book_status,.join_library_status{
+.add_book_status,.join_library_status,.more_books_status{
     height: 32px;
     float: left;
     width: 100%;
@@ -80,7 +80,7 @@ span.issue_book_disable{
 	float: left;
 	text-align: center;
 }
-.add_book_form,.join_library_form{
+.add_book_form,.join_library_form,.more_books_form{
 	width: 100%;
 	float: left;
 }
@@ -97,7 +97,7 @@ span.issue_book_disable{
 :focus {
     outline: -webkit-focus-ring-color auto 0px;
 }
-.add_book_single input,.add_book_single select,.join_library_single input,.join_library_single select{
+.add_book_single input,.add_book_single select,.join_library_single input,.join_library_single select,.more_books_single input,.more_books_single select{
 	width: 100%;
     float: left;
     background: #fff;
@@ -113,8 +113,8 @@ span.issue_book_disable{
     font-size: 14px;
     outline: 0;
 }
-.add_book_close,.join_library_close{float: right;cursor: pointer;}
-.add_book_single button,.join_library_single button{
+.add_book_close,.join_library_close,.more_books_close{float: right;cursor: pointer;}
+.add_book_single button,.join_library_single button,.more_books_single button{
     width: 100%;
     float: left;
     padding: 9px 10px;

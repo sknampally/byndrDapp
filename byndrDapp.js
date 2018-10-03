@@ -12,6 +12,10 @@ app.get('/', function (req, res) {
 app.get('/dashboard', function (req, res) {
     res.render('dashboard');
 })
+app.get('/simpleDashboard', function (req, res) {
+    res.render('simpleDashboard');
+})
+
 app.listen(3000, function () {
   console.log('Dapp started on port 3000!')
 })

@@ -1,7 +1,9 @@
 
+var contractAddress = '0x0dd5ccda367eb48126300c075d0eeaad94771c2c';
+
 showloading(); // prevent user actions while the document is being loaded
 
-var contractAddress = '0x0dd5ccda367eb48126300c075d0eeaad94771c2c';
+
 var mainContract = web3.eth.contract(abiMyLibrary).at(contractAddress);
 
 var totalBookCount;
@@ -200,6 +202,7 @@ function ethBalance(account) {
 }
 
 
+    
 
 function updateBookCount(){
     mainContract.totalBookCount.call(function(err,res){
@@ -367,6 +370,8 @@ function checkUserStatus() {
         }
     })
 }
+
+
 
 function setJoinLibraryButton(){
     $('.current_user_role').html('<a class="btn btn-success join_library">Join Library</a>');

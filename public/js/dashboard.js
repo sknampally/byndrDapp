@@ -1,5 +1,5 @@
 
-var contractAddress = '0x8e34e367025546e33a0240654b5792d2fc25a1a1';
+var contractAddress = '0x2aac202f326a372f22e7d5c5d69810047b7ce07e';
 
 showloading(); // prevent user actions while the document is being loaded
 
@@ -65,10 +65,10 @@ $(document).ready(function() {
          console.log("demo");
     });
 
-    $('.join_library').on('click',function(){
+    
+    $('body').on('click','.join_library',function(){
         $('.join_library_main').fadeIn();
     });
-
 
     $('.join_library_close').on('click',function(){
         $('.join_library_main').fadeOut();
@@ -101,10 +101,12 @@ $(document).ready(function() {
         }
     });
     
-    $('.more_books').on('click',function(){
+
+    
+    $('body').on('click','.more_books',function(){
         $('.more_books_main').fadeIn();
     });
-    
+
     
     $('.more_books_close').on('click',function(){
         $('.more_books_main').fadeOut();
@@ -145,9 +147,11 @@ $(document).ready(function() {
     // Code for issue book -- Button click functionality
     $('body').on('click','.issue_book',function(){
         var book_id = $(this).data('id');
-        alert ("m here")
+        console.log("Going to issue", book_id);
         mainContract.issueBook(book_id,function(err,res){if(!err){console.log(res)} else {console.log(err)}})
+        alert();
         location.reload(!0);
+        
 
     });
 
@@ -234,7 +238,7 @@ function updateAvailableAndIssuedBookCount() {
                 counterStop = totalBookCount.c[0];
                 
                 for (i = 0; i < counterStop; i++) {   
-                    // console.log("loop de loop", i);
+                    console.log("loop de loop", i);
                     mainContract.AllBooks.call(i,function(err,res){
                         if(!err){
                             // console.log("result",res);
@@ -354,7 +358,7 @@ function addedBook(error,result){
         $('.add_book_status').addClass('success');
         $('.add_book_status').html('You Have added Book Successfully');
         // RAHEEM -> Close this window here 
-        setTimeout(function(){ location.reload(!0); }, 1000);
+        updateAvailableAndIssuedBookCount();
         // change to todays date 
     }
     else {
@@ -364,6 +368,9 @@ function addedBook(error,result){
         $('.add_book_status').html('Please fill all the fields');
     }
 }
+
+
+
 function checkUserStatus() {
     console.log("going to check user status");  
     mainContract.balanceOf.call(web3.eth.accounts[0],function(err,res){
@@ -375,13 +382,12 @@ function checkUserStatus() {
             $('#menu_join_library').css('display','none');
         } else {
             console.log("nonmember");
-            $('.current_user_role').html('<a class="btn btn-success more_books">Join Library</a>');
+            $('.current_user_role').html('<a class="btn btn-success join_library">Join Library</a>');
             $('#menu_more_books').css('display','none');
             $('#menu_join_library').css('display','block');
         }
     })
 }
-
 
 
 function setJoinLibraryButton(){

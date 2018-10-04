@@ -1,5 +1,5 @@
 
-var contractAddress = '0x9cebfb09e8f11881678efa05e67b061e906d84b9';
+var contractAddress = '0x8e34e367025546e33a0240654b5792d2fc25a1a1';
 
 showloading(); // prevent user actions while the document is being loaded
 
@@ -47,12 +47,12 @@ $(document).ready(function() {
         var today = d.getDate() + "/" + (d.getMonth()+1) + "/" + d.getFullYear();
 
         console.log("today is " , today);  
-        alert();
+        
 
         if(book_genre && book_author && book_genre) {
          
             console.log ("adding book", book_name,book_author, book_genre, today); 
-            alert();
+            
             mainContract.addBook(book_name,book_author, book_genre, today,function(error, result){
                 addedBook(error,result);
   
@@ -80,7 +80,7 @@ $(document).ready(function() {
         var join_email = $('#join_email').val();
         if(join_name && join_email) {
             console.log("Join Library ", join_name, join_email);
-            mainContract.joinClub({from:web3.eth.accounts[0],gas:3000000,value:"1000000000"},function(err,res){
+            mainContract.joinClub({from:web3.eth.accounts[0],gas:3000000,value:"10000000000000000"},function(err,res){
                 if(!err){
                     $('.join_library_status').removeClass('error');
                     $('.join_library_status').addClass('success');
@@ -117,23 +117,23 @@ $(document).ready(function() {
         if(more_books_name && more_books_email) {
     alert("More Books");
     
-    mainContract.joinClub({from:web3.eth.accounts[0],gas:3000000,value:"1000000000"},function(err,res){if(!err){console.log(res)} else {console.log(err)}})
+    mainContract.joinClub({from:web3.eth.accounts[0],gas:3000000,value:"10000000000000000"},function(err,res){if(!err){console.log(res)} else {console.log(err)}})
     
     // end More books functionality
     $('.more_books_status').removeClass('error');
     $('.more_books_status').addClass('success');
     $('.more_books_status').html('You Have Subscribed Library Successfully');
-    mainContract.joinClub({from:web3.eth.accounts[0],gas:3000000,value:"1000000000"},function(err,res){if(!err){console.log(res)} else {console.log(err)}})
+    // mainContract.joinClub({from:web3.eth.accounts[0],gas:3000000,value:"10000000000000000"},function(err,res){if(!err){console.log(res)} else {console.log(err)}})
  
     
     setTimeout(function(){ location.reload(!0); }, 1000);
 
     }else{
+        // mainContract.joinClub({from:web3.eth.accounts[0],gas:3000000,value:"10000000000000000"},function(err,res){if(!err){console.log(res)} else {console.log(err)}})
     
     $('.more_books_status').removeClass('success');
     $('.more_books_status').addClass('error');
     $('.more_books_status').html('Please fill all the fields');
-    mainContract.joinClub({from:web3.eth.accounts[0],gas:3000000,value:"1000000000"},function(err,res){if(!err){console.log(res)} else {console.log(err)}})
  
     
     }
@@ -145,6 +145,7 @@ $(document).ready(function() {
     // Code for issue book -- Button click functionality
     $('body').on('click','.issue_book',function(){
         var book_id = $(this).data('id');
+        alert ("m here")
         mainContract.issueBook(book_id,function(err,res){if(!err){console.log(res)} else {console.log(err)}})
         location.reload(!0);
 
@@ -231,12 +232,12 @@ function updateAvailableAndIssuedBookCount() {
             {
                 $('#list_books_block').css('display','block');
                 counterStop = totalBookCount.c[0];
-                console.log("counterstop",counterStop);
+                
                 for (i = 0; i < counterStop; i++) {   
-                    console.log("loop de loop", i);
+                    // console.log("loop de loop", i);
                     mainContract.AllBooks.call(i,function(err,res){
                         if(!err){
-                            console.log("result",res);
+                            // console.log("result",res);
                             updateTable(err,res);    
                         }
                         else {
@@ -266,7 +267,7 @@ function updateTable (err,book){
         bool issued;
     }
     */
-   console.log("updateTable with ", book);
+//    console.log("updateTable with ", book);
     temp = '<tr><td>';
     temp += book[0] ; // currently counter in smart contract byndr6 is off by 1 , but code is already fixed
     temp += '</td><td>'
@@ -282,10 +283,11 @@ function updateTable (err,book){
     };
 
     temp += '</span></td></tr>';
-    console.log(book[0].c[0], book[6], temp);
+    // console.log(book[0].c[0], book[6], temp);
     $('#list_books tbody').append(temp);
+
    
-    if ( book[0].c[0] == (counterStop.c[0] )) {
+    if ( book[0].c[0] == counterStop) {
         $('#list_books').DataTable(); // data table constructor
         $('#menu_dashboard').addClass('active'); 
         // console.log(book,counterStop);
@@ -374,8 +376,8 @@ function checkUserStatus() {
         } else {
             console.log("nonmember");
             $('.current_user_role').html('<a class="btn btn-success more_books">Join Library</a>');
-            $('#menu_more_books').css('display','block');
-            $('#menu_join_library').css('display','none');
+            $('#menu_more_books').css('display','none');
+            $('#menu_join_library').css('display','block');
         }
     })
 }

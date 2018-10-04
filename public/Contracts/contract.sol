@@ -45,19 +45,18 @@ contract MyLibrary  {
     }
 
     function joinClub () public payable returns (bool success) {
+        require(msg.value >= 0.01 ether,"Please send a minimum of 0.01 ether");
         if (balanceOf[msg.sender] == 0) {
             totalMemberCount++;
+            balanceOf[msg.sender]++;   // scheme is to add 1 token when joining as a base unit and then adding 1 token everytie money is sent (including this time)  
         }
         balanceOf[msg.sender]++;
-         //  0.05 ether as joining fee and also allow 1 book per every 0.005 ether paid, user can borrow only if the balanceOf is greater than 1
-        // balanceOf[msg.sender] += (msg.value)*100/ (1 ether);
-         // take 0.05 ether as joining fee and also allow 1 book per every 0.005 ether paid
         return true;
     }
     
     function issueBook (uint8 _bookNumber) public returns (bool success){
-        // require(AllBooks[_bookNumber].borrower == 0x0, "book already issued" );
-        // require(balanceOf[msg.sender] >= 2 , "insufficient balance");
+        require(AllBooks[_bookNumber].borrower == 0x0, "book already issued" );
+        require(balanceOf[msg.sender] >= 2, "insufficient balance");  // chose this rather > 1 to explain better what is happening 
         balanceOf[msg.sender] -= 1;
         AllBooks[_bookNumber].borrower = msg.sender;
         AllBooks[_bookNumber].issued = true;
@@ -67,7 +66,7 @@ contract MyLibrary  {
 
 
     function() payable public {
-        revert(); // fallback function 
+        revert("Function not define"); // fallback function 
     }
     function finito () public payable {
         selfdestruct(owner);

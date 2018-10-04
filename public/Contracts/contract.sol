@@ -49,12 +49,14 @@ contract MyLibrary  {
             totalMemberCount++;
         }
         balanceOf[msg.sender]++;
- 
+         //  0.05 ether as joining fee and also allow 1 book per every 0.005 ether paid, user can borrow only if the balanceOf is greater than 1
+        // balanceOf[msg.sender] += (msg.value)*100/ (1 ether);
+         // take 0.05 ether as joining fee and also allow 1 book per every 0.005 ether paid
         return true;
     }
     
     function issueBook (uint8 _bookNumber) public returns (bool success){
-        require(AllBooks[_bookNumber].borrower == 0x0, "book already issued" );
+        // require(AllBooks[_bookNumber].borrower == 0x0, "book already issued" );
         // require(balanceOf[msg.sender] >= 2 , "insufficient balance");
         balanceOf[msg.sender] -= 1;
         AllBooks[_bookNumber].borrower = msg.sender;

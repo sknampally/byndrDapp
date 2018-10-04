@@ -1,5 +1,5 @@
 
-var contractAddress = '0x0dd5ccda367eb48126300c075d0eeaad94771c2c';
+var contractAddress = '0x9cebfb09e8f11881678efa05e67b061e906d84b9';
 
 showloading(); // prevent user actions while the document is being loaded
 
@@ -52,6 +52,7 @@ $(document).ready(function() {
         if(book_genre && book_author && book_genre) {
          
             console.log ("adding book", book_name,book_author, book_genre, today); 
+            alert();
             mainContract.addBook(book_name,book_author, book_genre, today,function(error, result){
                 addedBook(error,result);
   
@@ -223,23 +224,31 @@ function updateAvailableAndIssuedBookCount() {
     mainContract.availableBookCount.call(function(err,res){
         if(!err){ 
             availableBookCount = res;
-            
+            console.log("available book count:",availableBookCount)
             $(".availableBookCount").text(availableBookCount);
             issuedBookCount = totalBookCount - availableBookCount;
             $(".issuedBookCount").text(issuedBookCount);        
             {
                 $('#list_books_block').css('display','block');
-                counterStop = totalBookCount;
+                counterStop = totalBookCount.c[0];
+                console.log("counterstop",counterStop);
                 for (i = 0; i < counterStop; i++) {   
+                    console.log("loop de loop", i);
                     mainContract.AllBooks.call(i,function(err,res){
-                        updateTable(err,res);
+                        if(!err){
+                            console.log("result",res);
+                            updateTable(err,res);    
+                        }
+                        else {
+                            console.log("error",err);
+                        }
                     });
                 };
             }
             
         } else {
-            avaialbleBookCount = "error - could not connect to library";
-            console.log("available book count to :"+avaialbleBookCount);
+            availableBookCount = "error - could not connect to library";
+            console.log("available book count to :"+availableBookCount);
         }
 });
 }
@@ -364,7 +373,7 @@ function checkUserStatus() {
             $('#menu_join_library').css('display','none');
         } else {
             console.log("nonmember");
-            $('.current_user_role').html('<a class="btn btn-success more_books">Go Pro</a>');
+            $('.current_user_role').html('<a class="btn btn-success more_books">Join Library</a>');
             $('#menu_more_books').css('display','block');
             $('#menu_join_library').css('display','none');
         }

@@ -265,7 +265,7 @@ function updateTable (err,book){
     temp += '</td><td>'
     temp += book[2];
     temp += '</td><td>Genre</td><td>'
-    temp += '13/9/2018'
+    temp += book[4];
     if ((book[6])){
         temp += '</td><td><span class="issue_book_disable">Book Issued'}
     else {

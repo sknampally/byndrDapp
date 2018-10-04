@@ -3,7 +3,8 @@ Simple Dapp example to cover Blockchain, Ethereum &amp; Solidity essentials
 
 1. This code works under only on the Kovan network
 2. Git clone or download the entire folder and open a command prompt in the root directory of the folder (https://github.com/sknampally/byndrDapp)
-3. Deploy the app using the command (node can be installed from https://nodejs.org/en/download/)
+3. If NodeJs is not installed, install using nodejs 
+from https://nodejs.org/en/download/ . Deploy the app using the command 
     `node byndrDapp.js`
 4. You should get a response
     `Dapp started on port 3000`
